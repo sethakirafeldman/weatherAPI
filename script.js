@@ -71,10 +71,16 @@ const weatherDisplay = (resp) => {
     };
     let description = document.createElement("div");
     description.innerHTML = `<h4>Conditions:</h4> ${resp.list[0].weather[0].description}`;
+    description.id = "conditions";
+    
+    // api call to get weather icons
+    let iconCode = `${resp.list[0].weather[0].icon}`;
+    let iconSRC = `http://openweathermap.org/img/wn/${iconCode}@2x.png`
+    let icon = new Image();
+    icon.src = iconSRC;
+    description.appendChild(icon);
     weatherM.appendChild(description);
-    // console.log(resp.weather[0]);
 };
-
 
 // styling options
 // hide unnecessary values from DOM.
