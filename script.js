@@ -23,13 +23,13 @@ const getWeatherTwo = async function(city) {
     const location = `${city}`;
     const apiKey = `3bfc1d6dd8d349f3ecab46491d371c9d`;
     const units = `&units=metric`
-    const apiLocation = `https://api.openweathermap.org/data/2.5/weather?q=${location}${units}&APPID=${apiKey}`;
+    const apiLocation = `https://api.openweathermap.org/data/2.5/forecast?q=${location}${units}&APPID=${apiKey}`;
     // waits for server to grab data before passing into weatherDisplay.
     const response = await fetch(apiLocation, {mode: 'cors'});
     const weathData = await response.json();
+    console.log(weathData);
     weatherDisplay(weathData);
 };
-
 
 const cityField = document.getElementById("cityName");
 const submitBtn = document.getElementById("submitBtn");
@@ -40,38 +40,45 @@ document.getElementById("submitBtn").addEventListener("click", () => {
     getWeatherTwo(cityField.value);
     });
 
-// getWeather();
-
-//async function section
-
 //display weather results on page
 const weatherDisplay = (resp) => {
     const weatherM = document.getElementById("weatherMain");
     weatherM.innerHTML = "";
     // create city title using resp.name;
     let h3 = document.createElement("h3");
-    h3.innerText = `${resp.name}`;
+    h3.innerText = `${resp.city.name}`;
     weatherM.appendChild(h3);
 
     // create list items for temp, feels like, temp min, temp max, pressure.
-    for (let i = 0; i < Object.keys(resp.main).length; i++) {
+    for (let i = 0; i < Object.keys(resp.list[0].main).length; i++) {
         const weatherKeys = [
             "Temperature", 
             "Feels Like", 
             "Today's Low", 
             "Today's High", 
             "Pressure",
-            "Humidity"];
+            "Sea Level",
+            "Ground Level",
+            "Humidity",
+            "Temp_kf"
+        ];
         let div = document.createElement("div");
-        let objKey = (Object.keys(resp.main)[i]);
+        let objKey = (Object.keys(resp.list[0].main)[i]);
+        console.log(objKey);
         div.id = objKey;
-        div.innerHTML = `<h4>${weatherKeys[i]}:</h2> ${resp.main[objKey]}`;
+        div.innerHTML = `<h4>${weatherKeys[i]}:</h2> ${resp.list[0].main[objKey]}`;
         weatherM.appendChild(div);
     };
     let description = document.createElement("div");
-    description.innerHTML = `<h4>${resp.weather[0].main}:</h4> ${resp.weather[0].description}`;
+    description.innerHTML = `<h4>Conditions:</h4> ${resp.list[0].weather[0].description}`;
     weatherM.appendChild(description);
-    console.log(resp.weather[0]);
-
-    // weatherM.innerText = resp.main.temp;
+    // console.log(resp.weather[0]);
 };
+
+
+// styling options
+// hide unnecessary values from DOM.
+// background change depending on weather
+
+//conditions
+//clear sky
