@@ -1,0 +1,15 @@
+#weatherMain {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 350px;
+    width: 35%;
+}
+
+.weatherSquare {
+    padding: 2%;
+    border-style: solid;
+    border-color: black;
+    border-width: 2%;
+    width: auto;
+}
