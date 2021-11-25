@@ -1,4 +1,44 @@
 const weatherMain = document.getElementById("weatherMain");
+const tempUnit = "°C";
+
+const weatherKeyObj = [
+    {
+        title: "Temperature",
+        addon: `${tempUnit}`   
+    },
+    {
+        title: "Feels Like",
+        addon: `${tempUnit}`
+    },
+    {
+        title: "Today's Low",
+        addon: `${tempUnit}`
+    },
+    {
+        title: "Today's High",
+        addon: `${tempUnit}`
+    },
+    {
+        title: "Pressure",
+        addon: "hPa"
+    },
+    {
+        title: "Sea Level",
+        addon: ""
+    },
+    {
+        title: "Ground Level",
+        addon: ""
+    },
+    {
+        title: "Humidity",
+        addon: "%"
+    },
+    {
+        title: "Temp Kf",
+        addon: ""
+    }
+];
 
 // promise function ver
 // const getWeather = (city) => {
@@ -30,13 +70,14 @@ const getWeatherTwo = async function(city) {
     // waits for server to grab data before passing into weatherDisplay.
     const response = await fetch(apiLocation, {mode: 'cors'});
     const weathData = await response.json();
-
+    // error handling
     if (weathData.cod == "404" || weathData.cod == "400") {
         weatherMain.innerHTML = "";
         let errorDisplay = document.createElement("H3");
         errorDisplay.innerText = `Location not found.`
         weatherMain.appendChild(errorDisplay);
     }
+    // return data
     else if (weathData.cod == "200") {
         console.log(weathData);
         weatherDisplay(weathData);        
@@ -58,29 +99,22 @@ const weatherDisplay = (resp) => {
     weatherM.innerHTML = "";
     // create city title using resp.name;
     let h3 = document.createElement("h3");
+    h3.id = "city";
     h3.innerText = `${resp.city.name}`;
     weatherM.appendChild(h3);
+    const gridContainer = document.createElement("div");
+    gridContainer.id = "grid-container";
+    weatherM.appendChild(gridContainer);
 
     // create list items for temp, feels like, temp min, temp max, pressure.
     for (let i = 0; i < Object.keys(resp.list[0].main).length; i++) {
-        const weatherKeys = [
-            "Temperature", 
-            "Feels Like", 
-            "Today's Low", 
-            "Today's High", 
-            "Pressure",
-            "Sea Level",
-            "Ground Level",
-            "Humidity",
-            "Temp_kf"
-        ];
         let div = document.createElement("div");
         let objKey = (Object.keys(resp.list[0].main)[i]);
         // console.log(objKey);
         div.id = objKey;
         div.classList.add("weatherSquare");
-        div.innerHTML = `<h4>${weatherKeys[i]}:</h2> ${resp.list[0].main[objKey]}`;
-        weatherM.appendChild(div);
+        div.innerHTML = `<h4>${weatherKeyObj[i].title}:</h2> ${resp.list[0].main[objKey]}${weatherKeyObj[i].addon}`;
+        gridContainer.appendChild(div);
     };
     let description = document.createElement("div");
     description.innerHTML = `<h4>Conditions:</h4>`;
@@ -99,14 +133,10 @@ const weatherDisplay = (resp) => {
     let icon = new Image();
     icon.src = iconSRC;
     description.appendChild(icon);
-    weatherM.appendChild(description);
+    gridContainer.appendChild(description);
 
     
 };
 
 // styling options
-// hide unnecessary values from DOM.
 // background change depending on weather
-
-//conditions
-//clear sky

@@ -1,9 +1,8 @@
-#weatherMain {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    height: 350px;
-    width: 35%;
+#grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: .15rem;
+
 }
 
 .weatherSquare {
@@ -12,4 +11,8 @@
     border-color: black;
     border-width: 2%;
     width: auto;
+}
+
+h3 {
+    float: top;
 }
