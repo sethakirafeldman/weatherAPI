@@ -48,4 +48,4 @@ const weatherDisplay = (resp) => {
     
 };
 
-export {weatherDisplay};
+export { weatherDisplay }
