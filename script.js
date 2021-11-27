@@ -1,5 +1,6 @@
 const weatherMain = document.getElementById("weatherMain");
 const tempUnit = "°C";
+let units = `metric`;
 
 const weatherKeyObj = [
     {
@@ -41,8 +42,8 @@ const weatherKeyObj = [
 
 //async/await function.
 const getWeather = async function(city) {
-    const apiKey = `3bfc1d6dd8d349f3ecab46491d371c9d`;
-    const units = `metric`;
+    let apiKey = `3bfc1d6dd8d349f3ecab46491d371c9d`;
+    let units = `metric`;
     // const apiLocation = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${units}&APPID=${apiKey}`;
     const apiLocation = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&APPID=${apiKey}`;
 
@@ -120,15 +121,45 @@ const weatherDisplay = (resp) => {
     description.appendChild(icon);
     gridContainer.appendChild(description);
 
+    // get coordinates
+    const lat = resp.coord.lat;
+    const lon =resp.coord.lon;
+    
     //HOURLY FORECAST
-const genHourly = () => {
-    //https://openweathermap.org/api/one-call-api
+const genHourly = async function(lat, lon) {
+    let apiKey = `3bfc1d6dd8d349f3ecab46491d371c9d`;
+    let units = `metric`;
+    const oneCallAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,alerts,daily&units=${units}&appid=${apiKey}`;
+    const hourlyResp = await fetch(oneCallAPI, {mode:`cors`});
+    const hourlyRespData = await hourlyResp.json();
+
+    console.log(hourlyRespData);
+
+
+    //https://openweathermap.org/current
     const hourlyCont = document.createElement("div");
     hourlyCont.id = "hourly-container";
     weatherMain.appendChild(hourlyCont);
 
+    for (let j=0; j < 4; j++) { // makes 4 hours.
+        let hourDiv = document.createElement("div");
+        // converts unix timestamp to ms then into date
+        let dateConvert = new Date(hourlyRespData.hourly[j].dt*1000); 
+        hourDiv.id= `hour-${j}`;
+        // cuts off ms val
+        let timeOfDay = dateConvert.toLocaleTimeString().slice(-2);
+        
+        dateConvert = dateConvert.toLocaleTimeString().slice(0,-6);
+        dateConvert = `${dateConvert} ${timeOfDay}`;
+        hourDiv.innerText = dateConvert;
+        hourlyCont.appendChild(hourDiv);
+
+    };
+    
+
 };
-genHourly();
+
+genHourly(lat, lon);
     
 };
 
