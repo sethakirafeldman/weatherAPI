@@ -132,28 +132,52 @@ const genHourly = async function(lat, lon) {
     const oneCallAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,alerts,daily&units=${units}&appid=${apiKey}`;
     const hourlyResp = await fetch(oneCallAPI, {mode:`cors`});
     const hourlyRespData = await hourlyResp.json();
-
-    console.log(hourlyRespData);
-
-
-    //https://openweathermap.org/current
     const hourlyCont = document.createElement("div");
     hourlyCont.id = "hourly-container";
     weatherMain.appendChild(hourlyCont);
+    let hourTitle = document.createElement("h3");
+    hourTitle.innerText="Hourly";
+    hourlyCont.appendChild(hourTitle);
 
     for (let j=0; j < 4; j++) { // makes 4 hours.
         let hourDiv = document.createElement("div");
         // converts unix timestamp to ms then into date
         let dateConvert = new Date(hourlyRespData.hourly[j].dt*1000); 
         hourDiv.id= `hour-${j}`;
+       
         // cuts off ms val
         let timeOfDay = dateConvert.toLocaleTimeString().slice(-2);
-        
         dateConvert = dateConvert.toLocaleTimeString().slice(0,-6);
         dateConvert = `${dateConvert} ${timeOfDay}`;
         hourDiv.innerText = dateConvert;
         hourlyCont.appendChild(hourDiv);
 
+        //add hourly weather to each section.
+        let hourlyData = hourlyRespData.hourly[j];
+        console.log(hourlyData);
+        let hourlyWeather = document.createElement("div");
+        hourlyWeather.classList.add("hourly-data");
+        // get icon api call. this should be made into a function that can be used here and in weatherDisplay() 
+        let iconCode = `${hourlyData.weather[0].icon}`; 
+        
+        let icon = new Image();
+        let iconSRC = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        icon.src= iconSRC;
+        icon.classList.add("weather-icon");
+        console.log(icon);
+
+        hourlyWeather.innerHTML =
+            `Temperature: ${hourlyData.temp}${tempUnit}
+            Feels Like: ${hourlyData["feels_like"]}
+            Conditions: ${hourlyData.weather[0].description}`;
+
+        hourlyWeather.appendChild(icon);    
+        hourDiv.appendChild(hourlyWeather);
+        
+
+        console.log(hourlyRespData.hourly[j].temp);
+        console.log(hourlyRespData.hourly[j]["feels_like"]);
+        console.log(hourlyRespData.hourly[j].weather[0].main);
     };
     
 
