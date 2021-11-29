@@ -1,6 +1,7 @@
 const weatherMain = document.getElementById("weatherMain");
 const tempUnit = "°C";
-let units = `metric`;
+const units = `metric`;
+const apiKey = `3bfc1d6dd8d349f3ecab46491d371c9d`;
 
 const weatherKeyObj = [
     {
@@ -42,9 +43,6 @@ const weatherKeyObj = [
 
 //async/await function.
 const getWeather = async function(city) {
-    let apiKey = `3bfc1d6dd8d349f3ecab46491d371c9d`;
-    let units = `metric`;
-    // const apiLocation = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${units}&APPID=${apiKey}`;
     const apiLocation = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&APPID=${apiKey}`;
 
     // waits for server to grab data before passing into weatherDisplay.
@@ -127,8 +125,6 @@ const weatherDisplay = (resp) => {
     
     //HOURLY FORECAST
 const genHourly = async function(lat, lon) {
-    let apiKey = `3bfc1d6dd8d349f3ecab46491d371c9d`;
-    let units = `metric`;
     const oneCallAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,alerts,daily&units=${units}&appid=${apiKey}`;
     const hourlyResp = await fetch(oneCallAPI, {mode:`cors`});
     const hourlyRespData = await hourlyResp.json();
@@ -165,29 +161,32 @@ const genHourly = async function(lat, lon) {
         hourlyWeather.classList.add("hourly-data");
         // get icon api call. this should be made into a function that can be used here and in weatherDisplay() 
         let iconCode = `${hourlyData.weather[0].icon}`; 
-        
         let icon = new Image();
         let iconSRC = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
         icon.src= iconSRC;
         icon.classList.add("weather-icon");
-        console.log(icon);
+      
 
         hourlyWeather.innerHTML =
-            `Temperature: ${hourlyData.temp}${tempUnit}<br>
-            Feels Like: ${hourlyData["feels_like"]}<br>
+            `Temperature: ${Math.round(hourlyData.temp)}${tempUnit}<br>
+            Feels Like: ${Math.round(hourlyData["feels_like"])}<br>
             Conditions: ${hourlyData.weather[0].description}`;
-
         hourDiv.appendChild(hourlyWeather);
         hourlyWeather.appendChild(icon);    
-
-    
     };
-    
-
 };
 
 genHourly(lat, lon);
     
+};
+
+//weekly weather
+
+const getWeekly = async () => {
+    let forecastAPI = `api.openweathermap.org/data/2.5/forecast?q=${city}&units=${units}&appid=${apiKey}`;
+    const weeklyResp = await fetch(oneCallAPI, {mode:`cors`});
+    const weeklyRespData = await hourlyResp.json();
+    console.log(weeklyRespData);
 };
 
 // styling options
