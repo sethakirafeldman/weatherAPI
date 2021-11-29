@@ -13,12 +13,22 @@
     width: auto;
 }
 
-h3 {
+#hourly-container {
+    display: flex;
+    flex-direction: row;
+   /* grid-template-rows: repeat(auto-fill, minmax(150px, 1fr)); */
+
+}
+#city {
     float: top;
 }
 
-#hourlyContainer {
-   display: grid;
-   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-   
+#hourly {
+    width: 100%;
+}
+
+.col-item {
+    /* display: flex;
+    flex-direction: column;
+    justify-content: left; */
 }

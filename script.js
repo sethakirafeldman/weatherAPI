@@ -132,19 +132,25 @@ const genHourly = async function(lat, lon) {
     const oneCallAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,alerts,daily&units=${units}&appid=${apiKey}`;
     const hourlyResp = await fetch(oneCallAPI, {mode:`cors`});
     const hourlyRespData = await hourlyResp.json();
-    const hourlyCont = document.createElement("div");
-    hourlyCont.id = "hourly-container";
-    weatherMain.appendChild(hourlyCont);
+
+    //hour heading
     let hourTitle = document.createElement("h3");
     hourTitle.innerText="Hourly";
-    hourlyCont.appendChild(hourTitle);
+    hourTitle.id="hourly";
+    weatherMain.appendChild(hourTitle);
+
+     //container
+     const hourlyCont = document.createElement("div");
+     hourlyCont.id = "hourly-container";
+     weatherMain.appendChild(hourlyCont);
 
     for (let j=0; j < 4; j++) { // makes 4 hours.
         let hourDiv = document.createElement("div");
         // converts unix timestamp to ms then into date
         let dateConvert = new Date(hourlyRespData.hourly[j].dt*1000); 
         hourDiv.id= `hour-${j}`;
-       
+        hourDiv.classList.add("col-item");
+
         // cuts off ms val
         let timeOfDay = dateConvert.toLocaleTimeString().slice(-2);
         dateConvert = dateConvert.toLocaleTimeString().slice(0,-6);
@@ -167,17 +173,14 @@ const genHourly = async function(lat, lon) {
         console.log(icon);
 
         hourlyWeather.innerHTML =
-            `Temperature: ${hourlyData.temp}${tempUnit}
-            Feels Like: ${hourlyData["feels_like"]}
+            `Temperature: ${hourlyData.temp}${tempUnit}<br>
+            Feels Like: ${hourlyData["feels_like"]}<br>
             Conditions: ${hourlyData.weather[0].description}`;
 
-        hourlyWeather.appendChild(icon);    
         hourDiv.appendChild(hourlyWeather);
-        
+        hourlyWeather.appendChild(icon);    
 
-        console.log(hourlyRespData.hourly[j].temp);
-        console.log(hourlyRespData.hourly[j]["feels_like"]);
-        console.log(hourlyRespData.hourly[j].weather[0].main);
+    
     };
     
 
