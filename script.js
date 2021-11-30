@@ -57,7 +57,7 @@ const getWeather = async function(city) {
     }
     // return data
     else if (weathData.cod == "200") {
-        console.log(weathData);
+        // console.log(weathData);
         weatherDisplay(weathData);        
     };
 };
@@ -66,7 +66,7 @@ const cityField = document.getElementById("cityName");
 const submitBtn = document.getElementById("submitBtn");
 document.getElementById("submitBtn").addEventListener("click", () => {
     event.preventDefault();
-    console.log(cityField.value);
+    // console.log(cityField.value);
     // getWeather(cityField.value);
     getWeather(cityField.value);
     });
@@ -90,7 +90,7 @@ const weatherDisplay = (resp) => {
     for (let i = 0; i < Object.keys(resp.main).length; i++) {
         let div = document.createElement("div");
         let objKey = (Object.keys(resp.main)[i]);
-        console.log(objKey);
+        // console.log(objKey);
         let roundedValue = Math.round(resp.main[objKey]); // rounds up returned # vals.
 
         // console.log(objKey);
@@ -156,7 +156,7 @@ const genHourly = async function(lat, lon) {
 
         //add hourly weather to each section.
         let hourlyData = hourlyRespData.hourly[j];
-        console.log(hourlyData);
+        // console.log(hourlyData);
         let hourlyWeather = document.createElement("div");
         hourlyWeather.classList.add("hourly-data");
         // get icon api call. this should be made into a function that can be used here and in weatherDisplay() 
@@ -177,17 +177,46 @@ const genHourly = async function(lat, lon) {
 };
 
 genHourly(lat, lon);
-    
-};
 
 //weekly weather
-
-const getWeekly = async () => {
-    let forecastAPI = `api.openweathermap.org/data/2.5/forecast?q=${city}&units=${units}&appid=${apiKey}`;
-    const weeklyResp = await fetch(oneCallAPI, {mode:`cors`});
-    const weeklyRespData = await hourlyResp.json();
+// use one call in above func.
+const getWeekly = async (lat, lon) => {
+    let weeklyAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,alerts,hourly&units=${units}&appid=${apiKey}`;
+    const weeklyResp = await fetch(weeklyAPI, {mode:`cors`});
+    const weeklyRespData = await weeklyResp.json();
     console.log(weeklyRespData);
+
+    //weekly container
+    const weeklyCont = document.createElement("div");
+    weeklyCont.id="weekly-container";
+    weatherMain.appendChild(weeklyCont);
+
+    // day divs
+    for (let k = 0; k < 7; k++) {
+        let dayDiv = document.createElement("div");
+        dayDiv.id =`day-${k+1}`;
+        let dateConvert = new Date(weeklyRespData.daily[k].dt*1000);
+        let dateTrim = dateConvert.toDateString().slice(0,-4); // removes year
+        dayDiv.innerHTML = `${dateTrim}`;
+        
+        weeklyCont.appendChild(dayDiv);
+
+    };
+
+
+
+
 };
+
+getWeekly(lat, lon);
+
+cityField.value ="";
+
+
+};
+
+
+
 
 // styling options
 // background change depending on weather
