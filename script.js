@@ -3,7 +3,6 @@ const tempUnit = "°C";
 const units = `metric`;
 const apiKey = `3bfc1d6dd8d349f3ecab46491d371c9d`;
 
-
 const getIcon = (iconCode, appendable)=> {
     let icon = new Image();
     let iconSRC = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
@@ -124,7 +123,7 @@ const genHourly = async function(lat, lon) {
     const hourlyResp = await fetch(oneCallAPI, {mode:`cors`});
     const hourlyRespData = await hourlyResp.json();
     //hour heading
-    elMaker("h3","Hourly", "hourly",weatherMain);
+    elMaker("h5","Hourly Forecast", "hourly",weatherMain);
      //hourly container
      const hourlyCont = document.createElement("div");
      hourlyCont.id = "hourly-container";
@@ -171,9 +170,7 @@ const getWeekly = async (lat, lon) => {
 
     //weekly container
     const weeklyCont = document.createElement("div");
-    let weeklyTitle = document.createElement("h3");
-    weeklyTitle.innerText = `Weekly Forecast`;
-    weatherMain.appendChild(weeklyTitle);
+    elMaker("h5", "Weekly Forecast", "weekly-title", weatherMain);
     weeklyCont.id="weekly-container";
     weatherMain.appendChild(weeklyCont);
 
