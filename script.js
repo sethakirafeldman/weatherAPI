@@ -3,6 +3,22 @@ const tempUnit = "°C";
 const units = `metric`;
 const apiKey = `3bfc1d6dd8d349f3ecab46491d371c9d`;
 
+
+const getIcon = (iconCode, appendable)=> {
+    let icon = new Image();
+    let iconSRC = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    icon.src= iconSRC;
+    icon.classList.add("weather-icon");
+    appendable.appendChild(icon);
+};
+
+const elMaker = (type, txt, id, append) => {
+    let el = document.createElement(type);
+    el.innerText = txt;
+    el.id = id;
+    append.appendChild(el);
+};
+
 const weatherKeyObj = [
     {
         title: "Temperature",
@@ -51,9 +67,7 @@ const getWeather = async function(city) {
     // error handling
     if (weathData.cod == "404" || weathData.cod == "400") {
         weatherMain.innerHTML = "";
-        let errorDisplay = document.createElement("H3");
-        errorDisplay.innerText = `Location not found.`
-        weatherMain.appendChild(errorDisplay);
+        elMaker("h3","location not found", "error", weatherMain);
     }
     // return data
     else if (weathData.cod == "200") {
@@ -66,8 +80,6 @@ const cityField = document.getElementById("cityName");
 const submitBtn = document.getElementById("submitBtn");
 document.getElementById("submitBtn").addEventListener("click", () => {
     event.preventDefault();
-    // console.log(cityField.value);
-    // getWeather(cityField.value);
     getWeather(cityField.value);
     });
 
@@ -75,13 +87,8 @@ document.getElementById("submitBtn").addEventListener("click", () => {
 const weatherDisplay = (resp) => {
     weatherMain.innerHTML = "";
     // create city title using resp.name;
-    let h3 = document.createElement("h3");
-    h3.id = "city";
-    h3.innerText = `${resp.name}`;
-    let h5 = document.createElement("h5");
-    h5.innerText = `Current`;
-    h3.appendChild(h5);
-    weatherMain.appendChild(h3);
+    elMaker("h3",resp.name,"city", weatherMain);
+    elMaker("h5", "Current","current",document.getElementById("city"));
     const gridContainer = document.createElement("div");
     gridContainer.id = "grid-container";
     weatherMain.appendChild(gridContainer);
@@ -90,13 +97,9 @@ const weatherDisplay = (resp) => {
     for (let i = 0; i < Object.keys(resp.main).length; i++) {
         let div = document.createElement("div");
         let objKey = (Object.keys(resp.main)[i]);
-        // console.log(objKey);
-        let roundedValue = Math.round(resp.main[objKey]); // rounds up returned # vals.
-
-        // console.log(objKey);
         div.id = objKey;
         div.classList.add("weatherSquare");
-        div.innerHTML = `<h4>${weatherKeyObj[i].title}:</h2> ${roundedValue}${weatherKeyObj[i].addon}`;
+        div.innerHTML = `<h4>${weatherKeyObj[i].title}:</h2> ${Math.round(resp.main[objKey])}${weatherKeyObj[i].addon}`;
         gridContainer.appendChild(div);
     };
     // create description
@@ -108,34 +111,21 @@ const weatherDisplay = (resp) => {
     description.appendChild(descText);
     description.classList.add("weatherSquare");
 
-    // // hide unnecessary values from DOM.
-    // document.getElementById("temp_kf").remove();
-
-    // api call to get weather icons
-    let iconCode = `${resp.weather[0].icon}`;
-    let iconSRC = `http://openweathermap.org/img/wn/${iconCode}@2x.png`
-    let icon = new Image();
-    icon.src = iconSRC;
-    description.appendChild(icon);
+    getIcon(resp.weather[0].icon, description);
     gridContainer.appendChild(description);
-
+    
     // get coordinates
     const lat = resp.coord.lat;
-    const lon =resp.coord.lon;
+    const lon = resp.coord.lon;
     
     //HOURLY FORECAST
 const genHourly = async function(lat, lon) {
     const oneCallAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,alerts,daily&units=${units}&appid=${apiKey}`;
     const hourlyResp = await fetch(oneCallAPI, {mode:`cors`});
     const hourlyRespData = await hourlyResp.json();
-
     //hour heading
-    let hourTitle = document.createElement("h3");
-    hourTitle.innerText="Hourly";
-    hourTitle.id="hourly";
-    weatherMain.appendChild(hourTitle);
-
-     //container
+    elMaker("h3","Hourly", "hourly",weatherMain);
+     //hourly container
      const hourlyCont = document.createElement("div");
      hourlyCont.id = "hourly-container";
      weatherMain.appendChild(hourlyCont);
@@ -159,20 +149,13 @@ const genHourly = async function(lat, lon) {
         // console.log(hourlyData);
         let hourlyWeather = document.createElement("div");
         hourlyWeather.classList.add("hourly-data");
-        // get icon api call. this should be made into a function that can be used here and in weatherDisplay() 
-        let iconCode = `${hourlyData.weather[0].icon}`; 
-        let icon = new Image();
-        let iconSRC = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-        icon.src= iconSRC;
-        icon.classList.add("weather-icon");
-      
-
         hourlyWeather.innerHTML =
             `Temperature: ${Math.round(hourlyData.temp)}${tempUnit}<br>
             Feels Like: ${Math.round(hourlyData["feels_like"])}<br>
             Conditions: ${hourlyData.weather[0].description}`;
         hourDiv.appendChild(hourlyWeather);
-        hourlyWeather.appendChild(icon);    
+        // hourlyWeather.appendChild(icon);    
+        getIcon(hourlyData.weather[0].icon, hourlyWeather);
     };
 };
 
@@ -188,47 +171,33 @@ const getWeekly = async (lat, lon) => {
 
     //weekly container
     const weeklyCont = document.createElement("div");
+    let weeklyTitle = document.createElement("h3");
+    weeklyTitle.innerText = `Weekly Forecast`;
+    weatherMain.appendChild(weeklyTitle);
     weeklyCont.id="weekly-container";
     weatherMain.appendChild(weeklyCont);
 
     // day divs
     for (let k = 0; k < 7; k++) {
+        
         let dayDiv = document.createElement("div");
         dayDiv.id =`day-${k+1}`;
-        let dateConvert = new Date(weeklyRespData.daily[k].dt*1000);
+        let dayData = weeklyRespData.daily[k];
+        let dateConvert = new Date(dayData.dt*1000);
         let dateTrim = dateConvert.toDateString().slice(0,-4); // removes year
         dayDiv.innerHTML = `${dateTrim}`;
-        
         weeklyCont.appendChild(dayDiv);
-
+        // day content
+        let dailyData = document.createElement("div");
+        dailyData.classList.add("daily-data");
+        dailyData.innerHTML = `
+        Temperature: ${Math.round(dayData.temp.day)}<br>
+        Feels Like: ${Math.round(dayData["feels_like"].day)} <br>
+        Conditions: ${dayData.weather[0].description}`;
+        dayDiv.appendChild(dailyData);
+        getIcon(dayData.weather[0].icon, dailyData);
     };
-
-
-
-
 };
-
 getWeekly(lat, lon);
-
 cityField.value ="";
-
-
 };
-
-
-
-
-// styling options
-// background change depending on weather
-
-// split code into modules - requires webpack or running on server.
-
-
-
-
-
-
-
-
-
-// weekly forecast

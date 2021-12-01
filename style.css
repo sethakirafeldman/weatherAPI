@@ -13,7 +13,7 @@
     width: auto;
 }
 
-#hourly-container {
+#hourly-container, #weekly-container{
     display: flex;
     flex-direction: row;
    /* grid-template-rows: repeat(auto-fill, minmax(150px, 1fr)); */
