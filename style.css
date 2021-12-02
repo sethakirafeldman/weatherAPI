@@ -32,3 +32,8 @@
     flex-direction: column;
     justify-content: left; */
 }
+
+#weatherMain {
+    background-repeat: no-repeat;
+    background-size: 100%;
+}

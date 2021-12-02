@@ -18,6 +18,20 @@ const elMaker = (type, txt, id, append) => {
     append.appendChild(el);
 };
 
+const getBackground = async (city) => {
+    const unsplashAPI = `https://api.unsplash.com/search/photos?page=1&query=${city}&client_id=YRV9QpR8OK8cKkF0QFk5yOMLv5DeSxQeVMPE1nijnBY`;
+    const photoFetch = await fetch(unsplashAPI,{mode:`cors`});
+    const photoData = await photoFetch.json();
+    let photo = photoData.results[0].urls.full;
+
+    console.log(photoData.results[0].urls);    
+
+    // apply photo as background
+    weatherMain.style.backgroundImage = `url(${photo})`;
+    // need to attribute to owner.
+
+};
+
 const weatherKeyObj = [
     {
         title: "Temperature",
@@ -195,6 +209,12 @@ const getWeekly = async (lat, lon) => {
         getIcon(dayData.weather[0].icon, dailyData);
     };
 };
+
 getWeekly(lat, lon);
+getBackground(cityField.value);
 cityField.value ="";
+
 };
+
+
+
