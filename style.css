@@ -11,6 +11,12 @@
     border-color: black;
     border-width: 2%;
     width: auto;
+    background-image:  linear-gradient(
+        rgba(255, 255, 255, 0.25),
+        rgba(255, 255, 255, 0.5)
+      ) ;
+    font-size: large;  
+  
 }
 
 #hourly-container, #weekly-container{
@@ -27,13 +33,15 @@
     width: 100%;
 }
 
-.col-item {
-    /* display: flex;
-    flex-direction: column;
-    justify-content: left; */
-}
-
 #weatherMain {
     background-repeat: no-repeat;
     background-size: 100%;
+}
+
+h5 {
+    width: max-content;
+    background-image:  linear-gradient(
+        rgba(255, 255, 255, 0.25),
+        rgba(255, 255, 255, 0.5)
+      ) ;
 }

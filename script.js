@@ -148,7 +148,7 @@ const genHourly = async function(lat, lon) {
         // converts unix timestamp to ms then into date
         let dateConvert = new Date(hourlyRespData.hourly[j].dt*1000); 
         hourDiv.id= `hour-${j}`;
-        hourDiv.classList.add("col-item");
+        hourDiv.classList.add("weatherSquare");
 
         // cuts off ms val
         let timeOfDay = dateConvert.toLocaleTimeString().slice(-2);
@@ -193,6 +193,7 @@ const getWeekly = async (lat, lon) => {
         
         let dayDiv = document.createElement("div");
         dayDiv.id =`day-${k+1}`;
+        dayDiv.classList.add("weatherSquare");
         let dayData = weeklyRespData.daily[k];
         let dateConvert = new Date(dayData.dt*1000);
         let dateTrim = dateConvert.toDateString().slice(0,-4); // removes year
