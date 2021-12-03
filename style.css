@@ -10,12 +10,13 @@
     border-style: solid;
     border-color: black;
     border-width: 2%;
-    width: auto;
+    width: 100%;
     background-image:  linear-gradient(
         rgba(255, 255, 255, 0.25),
         rgba(255, 255, 255, 0.5)
       ) ;
     font-size: large;  
+    text-align: center;
   
 }
 
@@ -27,10 +28,6 @@
 }
 #city {
     float: top;
-}
-
-#hourly {
-    width: 100%;
 }
 
 #weatherMain {
@@ -45,3 +42,22 @@ h5 {
         rgba(255, 255, 255, 0.5)
       ) ;
 }
+
+.weather-icon {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+
+}
+
+/* .dailyData .weather-icon {
+    width: 50px;
+
+}
+
+@media screen and (max-width:900px) {
+    #weatherMain{
+        wdith: 100%;
+    }
+} */
