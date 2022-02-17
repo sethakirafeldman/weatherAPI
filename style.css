@@ -37,10 +37,14 @@
 
 h5 {
     width: max-content;
-    background-image:  linear-gradient(
-        rgba(255, 255, 255, 0.25),
+    /* background-image:  linear-gradient(
+        rgba(255, 255, 255, 0.5),
         rgba(255, 255, 255, 0.5)
-      ) ;
+      ) ; */
+}
+
+h2 {
+    font-size: xx-large;
 }
 
 .weather-icon {
@@ -49,6 +53,12 @@ h5 {
     margin-right: auto;
     width: 50%;
 
+}
+
+#locationCheck {
+    font-size: large;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
 }
 
 /* .dailyData .weather-icon {

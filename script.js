@@ -30,10 +30,7 @@ const getBackground = async (city) => {
 
     // apply photo as background
     weatherMain.style.backgroundImage = `url(${photo})`;
-    // need to attribute to owner.
     
-   
-
     setTimeout(()=> {
         let imageAuthor = `${photoData.results[randNum].user.username}`;
         console.log(imageAuthor);
@@ -43,12 +40,9 @@ const getBackground = async (city) => {
         let ownerLink = photoData.results[randNum].links.html;
         ownerDiv.innerHTML = `Image of <strong>${city}</strong> randomly selected from unsplash.com. <br> Author: <strong>${imageAuthor}</strong> 
         <br><a href="${ownerLink}" target="_blank">${ownerLink}</a>`;
-
-
         weatherMain.append(ownerDiv);
     }, 1000);
-    // apend ownerDiv AFTER photo loads to add to end of weatherMain div.
-    // 
+
     
 
 };
@@ -121,7 +115,7 @@ document.getElementById("submitBtn").addEventListener("click", () => {
 const weatherDisplay = (resp) => {
     weatherMain.innerHTML = "";
     // create city title using resp.name;
-    elMaker("h3",resp.name,"city", weatherMain);
+    elMaker("h2",resp.name,"city", weatherMain);
     elMaker("h5", "Current","current",document.getElementById("city"));
     const gridContainer = document.createElement("div");
     gridContainer.id = "grid-container";
