@@ -12,17 +12,17 @@ const getIcon = (iconCode, appendable)=> {
     appendable.appendChild(icon);
 };
 
-const elMaker = (type, txt, id, append) => {
+const elMaker = (type, txt, id, parent) => {
     let el = document.createElement(type);
     el.innerText = txt;
     el.id = id;
-    append.appendChild(el);
+    parent.appendChild(el);
 };
 
 const getBackground = async (city) => {
     const randNum = Math.floor(Math.random()*10);
     const unsplashAPI = `https://api.unsplash.com/search/photos?page=${randNum}&query=${city}&orientation=portrait&client_id=YRV9QpR8OK8cKkF0QFk5yOMLv5DeSxQeVMPE1nijnBY`;
-    const photoFetch = await fetch(unsplashAPI,{mode:`cors`});
+    const photoFetch = await fetch(unsplashAPI, {mode:`cors`});
     const photoData = await photoFetch.json();
     let photo = photoData.results[randNum].urls.full;
 
@@ -106,6 +106,7 @@ const getWeather = async function(city) {
 // adds eventlistener to form.
 const cityField = document.getElementById("cityName");
 const submitBtn = document.getElementById("submitBtn");
+submitBtn.classList.add("btn-primary");
 document.getElementById("submitBtn").addEventListener("click", () => {
     event.preventDefault();
     getWeather(cityField.value);
@@ -116,7 +117,7 @@ const weatherDisplay = (resp) => {
     weatherMain.innerHTML = "";
     // create city title using resp.name;
     elMaker("h2",resp.name,"city", weatherMain);
-    elMaker("h5", "Current","current",document.getElementById("city"));
+    elMaker("h5", "Current","current", weatherMain);
     const gridContainer = document.createElement("div");
     gridContainer.id = "grid-container";
     weatherMain.appendChild(gridContainer);

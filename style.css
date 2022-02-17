@@ -5,6 +5,14 @@
 
 }
 
+#site-title {
+    text-align: center;
+}
+
+div {
+    margin: auto;
+}
+
 .weatherSquare {
     padding: 2%;
     border-style: solid;
@@ -12,8 +20,8 @@
     border-width: 2%;
     width: 100%;
     background-image:  linear-gradient(
-        rgba(255, 255, 255, 0.25),
-        rgba(255, 255, 255, 0.5)
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.85)
       ) ;
     font-size: large;  
     text-align: center;
@@ -23,11 +31,13 @@
 #hourly-container, #weekly-container{
     display: flex;
     flex-direction: row;
-   /* grid-template-rows: repeat(auto-fill, minmax(150px, 1fr)); */
-
 }
+
 #city {
-    float: top;
+    margin: auto;
+    font-size: larger;
+    width: fit-content;
+    text-align: center;
 }
 
 #weatherMain {
@@ -36,11 +46,18 @@
 }
 
 h5 {
+    margin: left;
     width: max-content;
-    /* background-image:  linear-gradient(
+    background-image:  linear-gradient(
         rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 0.5)
-      ) ; */
+        rgba(255, 255, 255, 0.75)
+      ) ;
+      border-color: black;
+      border-width: 2%;
+      width: fit-content;
+      padding: 1%;
+      border-style: solid;
+
 }
 
 h2 {
@@ -56,18 +73,8 @@ h2 {
 }
 
 #locationCheck {
+    margin: auto;
     font-size: large;
     font-family: Georgia, 'Times New Roman', Times, serif;
     text-align: center;
 }
-
-/* .dailyData .weather-icon {
-    width: 50px;
-
-}
-
-@media screen and (max-width:900px) {
-    #weatherMain{
-        wdith: 100%;
-    }
-} */
