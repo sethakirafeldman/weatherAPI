@@ -26,11 +26,12 @@ const getBackground = async (city) => {
     const photoData = await photoFetch.json();
     let photo = photoData.results[randNum].urls.full;
 
-    console.log(photoData.results);    
+    // console.log(photoData.results);    
 
     // apply photo as background
-    weatherMain.style.backgroundImage = `url(${photo})`;
-    
+    // weatherMain.style.backgroundImage = `url(${photo})`;
+    document.body.style.backgroundImage = `url(${photo})`;
+
     setTimeout(()=> {
         let imageAuthor = `${photoData.results[randNum].user.username}`;
         console.log(imageAuthor);

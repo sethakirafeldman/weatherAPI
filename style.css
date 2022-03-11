@@ -1,12 +1,59 @@
+
+
 #grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     grid-gap: .15rem;
 
 }
+#cityName {
+    padding: 1%;
+    border: medium;
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.85)
+      );
+      background-color: whitesmoke;
+    
+}
+
+#submitBtn {
+    color: black; 
+    background-color: transparent;
+    padding: 2%;
+    border-style: solid;
+    border-color: black;
+    border-width: 2%;
+    width: 100%; 
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.85)
+      ) ;
+}
+
+#cityName {
+    padding: 2%;
+    border-style: solid;
+    border-color: black;
+    border-width: 2%;
+    width: 100%;
+    background-image:  linear-gradient(
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.85)
+      ) ;
+}
 
 #site-title {
-    text-align: center;
+    margin: auto;
+    padding: 2%;
+    border-style: solid;
+    border-color: black;
+    border-width: 2%;
+    width: fit-content;
+    background-image:  linear-gradient(
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.85)
+      );
 }
 
 div {
