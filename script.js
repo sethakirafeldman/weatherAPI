@@ -25,7 +25,7 @@ const getBackground = async (city) => {
     const photoFetch = await fetch(unsplashAPI, {mode:`cors`});
     const photoData = await photoFetch.json();
     let photo = photoData.results[randNum].urls.full;
-
+    console.log(photo);
     // console.log(photoData.results);    
 
     // apply photo as background

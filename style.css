@@ -1,4 +1,8 @@
 
+body {
+    background-image: url("https://images.unsplash.com/photo-1594876187439-acdfeadc7126?crop=entropy&cs=srgb&fm=jpg&ixid=MnwyNzkwODV8MHwxfHNlYXJjaHwzNXx8VG9yb250b3xlbnwwfDF8fHwxNjQ2OTYzMDg1&ixlib=rb-1.2.1&q=85");
+    height: 100%;
+}
 
 #grid-container {
     display: grid;
