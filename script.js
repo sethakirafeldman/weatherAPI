@@ -4,6 +4,11 @@ const units = `metric`;
 const apiKey = `3bfc1d6dd8d349f3ecab46491d371c9d`;
 const locationCheck = document.getElementById("locationCheck");
 
+let defaultImg= "https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyNzkwODV8MHwxfHNlYXJjaHwxfHxUb3JvbnRvJTIwY2l0eXNjYXBlJTNFfGVufDB8MHx8fDE2NDcxMDc4NDk&ixlib=rb-1.2.1&q=80&w=1080";
+
+document.body.style.backgroundImage = `url(${defaultImg})`;
+document.body.style.height= "1200px";
+
 const getIcon = (iconCode, appendable)=> {
     let icon = new Image();
     let iconSRC = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
@@ -21,16 +26,24 @@ const elMaker = (type, txt, id, parent) => {
 
 const getBackground = async (city) => {
     const randNum = Math.floor(Math.random()*10);
-    const unsplashAPI = `https://api.unsplash.com/search/photos?page=${randNum}&query=${city}&orientation=portrait&client_id=YRV9QpR8OK8cKkF0QFk5yOMLv5DeSxQeVMPE1nijnBY`;
-    const photoFetch = await fetch(unsplashAPI, {mode:`cors`});
-    const photoData = await photoFetch.json();
-    let photo = photoData.results[randNum].urls.full;
-    console.log(photo);
-    // console.log(photoData.results);    
+    console.log(randNum);
 
-    // apply photo as background
-    // weatherMain.style.backgroundImage = `url(${photo})`;
-    document.body.style.backgroundImage = `url(${photo})`;
+    const unsplashAPI = `https://api.unsplash.com/search/photos?page=${randNum}&query=${city} cityscape>&per_page=1000&orientation=landscape&client_id=YRV9QpR8OK8cKkF0QFk5yOMLv5DeSxQeVMPE1nijnBY`;
+    const photoFetch = await fetch(unsplashAPI, {mode:`cors`});
+    console.log(photoFetch.ok);
+    if (photoFetch.ok == false) {
+        const message = `An error has occured: ${response.status}`;
+        console.log(message);
+    }  
+    else {
+
+    const photoData = await photoFetch.json();
+    let photo = photoData.results[randNum].urls.regular;
+    // console.log(photoData);
+    // console.log(photoData.results);  
+        document.body.style.backgroundImage = "";
+        document.body.style.backgroundImage = `url(${photo})`;
+    }
 
     setTimeout(()=> {
         let imageAuthor = `${photoData.results[randNum].user.username}`;
