@@ -1,6 +1,16 @@
 # weatherAPI
-Uses OpenWeather and Unsplash API to display weather for entered location as well as a pseudorandom photo of that location from unsplash.com 
 
-Weather results are real-time and up to date based on data received from OpenWeather API.
+## Description
 
-API calls made using Fetch and Async/Await.
+Real-time weather results based on entered city name. Also sets background to an image of the entered city.
+
+## Technology
+
+Accesses two separate (free) APIs. OpenWeather, and Unsplash. 
+
+API calls are made using Fetch and Async/Await.
+
+Built using HTML, CSS, and JavaScript.
+
+
+
